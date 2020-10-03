@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% load crispy_forms_tags %}
+
+{% block title %} LOGIN {% endblock %}
+
+
+{% block content %}
+
+    <h1 class="brand-title">ZALOGUJ SIĘ</h1>
+
+{% endblock content %}
+
+{% block content_body %}
+    <form method="post">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-6">
+                {{ form.username|as_crispy_field }}
+            </div>
+            <div class="col-6">
+                {{ form.password|as_crispy_field }}
+            </div>
+        </div>
+        <button type="submit" class="btn btn-success">Zaloguj</button>
+    </form>
+    {% if messages %}
+        {% for message in messages %}
+            <p>{{ message }}</p>
+        {% endfor %}
+    {% endif %}
+
+{% endblock content_body %}

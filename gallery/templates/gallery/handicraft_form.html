@@ -1,0 +1,43 @@
+
+{% extends "base.html" %}
+
+{% load crispy_forms_tags %}
+
+{% block title %} Dodaj Obraz{% endblock %}
+
+
+{% block content %}
+
+    <h1 class="brand-title">FORMULARZ DODAWANIA DZIEŁA</h1>
+
+{% endblock content %}
+
+{% block content_body %}
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.image|as_crispy_field }}
+        <div class="row">
+            <div class="col-6">
+                {{ form.title|as_crispy_field }}
+            </div>
+            <div class="col-6">
+                {{ form.author|as_crispy_field }}
+            </div>
+            <div class="col-6">
+                {{ form.added_by|as_crispy_field }}
+            </div>
+            <div class="col-6">
+                {{ form.price|as_crispy_field }}
+            </div>
+            <div class="col-6">
+                {{ form.added_date|as_crispy_field }}
+            </div>
+        </div>
+
+        {{ form.description|as_crispy_field }}
+        <button type="submit" class="btn btn-success">Zapisz</button>
+    </form>
+
+{% endblock content_body %}
+

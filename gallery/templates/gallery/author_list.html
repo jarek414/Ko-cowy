@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %} Dodaj Autora {% endblock %}
+
+
+{% block content %}
+
+    <h1 class="brand-title">Lista Twórców</h1>
+
+{% endblock content %}
+
+
+{% block content_body %}
+    <div id="menu" class="pure-u-1 pure-u-md-1-2">
+        <div class="pure-menu-list">
+            <ul class="pure-menu-list">
+                {% for author in object_list %}
+                    <li class="pure-menu-item"><a href="#" class="pure-menu-link">{{ author.surname }} {{ author.first_name }}</a></li>
+                {% empty %}
+                    <li>No authors yet.</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+
+
+{% endblock content_body %}

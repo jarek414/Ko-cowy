@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% load crispy_forms_tags %}
+
+{% block title %} Dodaj Autora{% endblock %}
+
+
+{% block content %}
+
+    <h1 class="brand-title">FORMULARZ DODAWANIA AUTORA</h1>
+
+{% endblock content %}
+
+{% block content_body %}
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-6">
+                {{ form.first_name|as_crispy_field }}
+            </div>
+            <div class="col-6">
+                {{ form.surname|as_crispy_field }}
+            </div>
+        </div>
+        {{ form.curriculum_vitae|as_crispy_field }}
+        <button type="submit" class="btn btn-success">Zapisz</button>
+    </form>
+
+{% endblock content_body %}
