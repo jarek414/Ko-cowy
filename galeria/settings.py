@@ -41,7 +41,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'crispy_forms',
     'gallery',
+    'address',
 ]
+
+GOOGLE_API_KEY = 'AIzaSyD--your-google-maps-key-SjQBE'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 

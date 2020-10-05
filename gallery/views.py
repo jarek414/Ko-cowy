@@ -1,28 +1,26 @@
 from django.shortcuts import render
 from django.views.generic.edit import CreateView, FormView, UpdateView, DeleteView
-from .models import Handicraft, Author, Comment
+from .models import Handicraft, Author, Comment, Order, OrderHandicraft
 from django.views.generic.list import ListView
 from django.urls import reverse_lazy, reverse
 from django.views.generic.detail import DetailView
 from .forms import CommentForm, UserAddForm
-from django.shortcuts import redirect, render, HttpResponse
+from django.shortcuts import redirect, render, HttpResponse, get_object_or_404
 from django.views import View
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.utils import timezone
 
 
-class AuthorCreateView(CreateView):
+class AuthorCreateView(PermissionRequiredMixin, CreateView):
     model = Author
     fields = ['first_name', 'surname', 'curriculum_vitae']
     success_url = reverse_lazy('authors')
-
-
-class UserCreateView(CreateView):
-    model = User
-    fields = ['first_name', 'surname', 'curriculum_vitae']
-    success_url = reverse_lazy('authors')
+    permission_required = "create_author"
 
 
 class AuthorsListView(ListView):
@@ -33,10 +31,15 @@ class HandicraftListView(ListView):
     model = Handicraft
 
 
-class HandicraftCreateView(CreateView):
+class HandicraftCreateView(PermissionRequiredMixin, CreateView):
     model = Handicraft
-    fields = ['image', 'title', 'category', 'description', 'author', 'added_date', 'added_by', 'price']
-    success_url = reverse_lazy('handicrafs')
+    fields = ['image', 'title', 'category', 'description', 'author', 'added_date', 'price']
+
+    def form_valid(self, form):
+        form.instance.added_by = self.request.user
+        return super().form_valid(form)
+
+    success_url = reverse_lazy('authors')
 
 
 class HandicraftDetailView(DetailView):
@@ -58,7 +61,7 @@ class HandicraftDetailView(DetailView):
             comment.save()
         else:
             raise Exception
-        return redirect(reverse('detail', args=[self.get_object_or_404().id]))
+        return redirect(reverse('detail', args=[self.get_object().id]))
 
 
 class HomePage(View):
@@ -103,3 +106,44 @@ class LoginView(View):
 def logout_user(request):
     logout(request)
     return redirect('login')
+
+
+class OrderCreateView(LoginRequiredMixin, CreateView):
+    model = Order
+    fields = ['order_handicraft', 'country', 'citi', 'zip', 'street_address', 'house_number', 'flat_number']
+    login_url = "login"
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
+    success_url = reverse_lazy('authors')
+
+
+
+@login_required
+def add_to_cart(request, pk):
+    handicraft = get_object_or_404(Handicraft, pk=pk)
+    order_handicraft, created = OrderHandicraft.objects.get_or_create(
+        user=request.user,
+        ordered=False,
+        handicraft=handicraft,
+    )
+    order_qs = Order.objects.filter(user=request.user, ordered=False)
+    if order_qs.exists():
+        order = order_qs[0]
+        # check if the order item is in the order
+        if order.order_handicraft.filter(handicraft__pk=handicraft.id).exists():
+            messages.info(request, "Produkt jest już w koszyku")
+            return redirect("order")
+        else:
+            order.order_handicraft.add(order_handicraft)
+            messages.info(request, "This item was added to your cart.")
+            return redirect("order")
+    else:
+        created = timezone.now()
+        order = Order.objects.create(
+            user=request.user, created=created)
+        order.order_handicraft.add(order_handicraft)
+        messages.info(request, "This item was added to your cart.")
+        return redirect("core:order-summary")

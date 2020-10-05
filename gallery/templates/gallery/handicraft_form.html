@@ -1,9 +1,8 @@
-
 {% extends "base.html" %}
 
 {% load crispy_forms_tags %}
 
-{% block title %} Dodaj Obraz{% endblock %}
+{% block title %} Dodaj Dzieło{% endblock %}
 
 
 {% block content %}
@@ -16,8 +15,10 @@
 
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        {{ form.image|as_crispy_field }}
         <div class="row">
+            <div class="col-12">
+                {{ form.image|as_crispy_field }}
+            </div>
             <div class="col-6">
                 {{ form.title|as_crispy_field }}
             </div>
@@ -25,16 +26,15 @@
                 {{ form.author|as_crispy_field }}
             </div>
             <div class="col-6">
-                {{ form.added_by|as_crispy_field }}
-            </div>
-            <div class="col-6">
                 {{ form.price|as_crispy_field }}
             </div>
             <div class="col-6">
                 {{ form.added_date|as_crispy_field }}
             </div>
+            <div class="col-6">
+                {{ form.category|as_crispy_field }}
+            </div>
         </div>
-
         {{ form.description|as_crispy_field }}
         <button type="submit" class="btn btn-success">Zapisz</button>
     </form>

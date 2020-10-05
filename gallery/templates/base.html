@@ -55,18 +55,28 @@
                     <a href="#" class="pure-menu-link">Bilety</a>
                 </li>
                 {% if user.is_authenticated %}
-                    <li class="last pure-menu-item">
-                        <a href="{% url 'logout' %}" class="pure-menu-link">Wyloguj się</a>
+
+                    <li class="pure-menu-item">
+                        <a href="#" class="pure-menu-link">Twoje Zamówienie</a>
                     </li>
-                    <li class="last pure-menu-item">
-                        <a href="#" class="pure-menu-link">Twoje Konto</a>
+                    <li class="pure-menu-item">
+                        <a href="{% url 'logout' %}" class="pure-menu-link">Wyloguj się</a>
                     </li>
 
                 {% else %}
-                    <li class="last pure-menu-item">
+                    <li class="pure-menu-item">
                         <a href="{% url 'login' %}" class="pure-menu-link">Zaloguj się</a>
                     </li>
                 {% endif %}
+                {% if user.is_staff %}
+                    <li class="pure-menu-item">
+                        <a href="{% url 'add-handicraf' %}" class="pure-menu-link">Dodaj dzieło</a>
+                    </li>
+                    <li class="pure-menu-item">
+                        <a href="{% url 'add_author' %}" class="pure-menu-link">Dodaj Autora</a>
+                    </li>
+                {% endif %}
+
             </ul>
         </div>
 
@@ -82,5 +92,4 @@
 </div>
 
 </body>
-<script src="static/js/js.js" type="text/javascript"></script>
 </html>

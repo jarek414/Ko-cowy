@@ -6,19 +6,24 @@
 
 {% block content %}
     <h1 class="brand-title">{{ object.title }}</h1>
-    <h2 class="brand-tagline">{{ object.description }}</h2>
     <h3 class="brand-tagline">{{ object.author }}</h3>
+    {% if user.is_authenticated %}
+    {% if object.is_available %}
     <h3 class="brand-tagline">{{ object.price }} zł</h3>
 
     <nav class="nav">
         <div style="float:right;">
             <ul class="nav-list">
                 <li class="nav-item">
-                    <a class="pure-button" href="http://purecss.io">Kup</a>
+                    <a class="pure-button" href={{ object.get_add_to_cart_url }}>Kup</a>
                 </li>
             </ul>
         </div>
     </nav>
+    {% endif %}
+        {% else %}
+        <h3 class="brand-tagline">Zaloguj się, żeby kupić</h3>
+    {% endif %}
 
 {% endblock content %}
 
@@ -30,6 +35,8 @@
 {% block content_body %}
     <div>
         <!-- A wrapper for all the blog posts -->
+    <div class="post-description">
+        <div class="post-images pure-g">
         <div class="posts">
             <h1 class="content-subhead">{{ object.title }}</h1>
             <div class="pure-u-md-1-2">
@@ -41,7 +48,12 @@
                     <h3>{{ object.author }}</h3>
                 </div>
             </div>
+            <div class="pure-u-md-1-2">
+                <p class="post-description">{{ object.description }}</p>
+            </div>
         </div>
+        </div>
+    </div>
 
         {% for comment in object.comment_set.all %}
 
@@ -62,17 +74,17 @@
         {% endfor %}
 
     </div>
-{% if user.is_authenticated %}
-    <h1 class="content-subhead"> Skomentuj</h1>
-    <div>
-        <form action="{% url 'detail' pk=object.id %}" method="post">
-            {% csrf_token %}
-            <div class="col-6">
-                {{ comment_form.comment|as_crispy_field }}
-            </div>
-            <input type="submit" value="Dodaj!">
-        </form>
-    </div>
-{% endif %}
+    {% if user.is_authenticated %}
+        <h1 class="content-subhead"> Skomentuj</h1>
+        <div>
+            <form action="{% url 'detail' pk=object.id %}" method="post">
+                {% csrf_token %}
+                <div class="col-6">
+                    {{ comment_form.comment|as_crispy_field }}
+                </div>
+                <input type="submit" value="Dodaj!">
+            </form>
+        </div>
+    {% endif %}
 
 {% endblock content_body %}

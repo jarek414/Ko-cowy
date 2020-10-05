@@ -19,6 +19,8 @@ h3 {
     font-weight: 100;
 }
 
+
+
 /* LAYOUT CSS */
 .pure-img-responsive {
     max-width: 100%;
@@ -43,7 +45,6 @@ h3 {
     background: rgb(61, 79, 93);
     color: #fff;
 }
-
 
 
 .brand-title,
@@ -123,6 +124,7 @@ h3 {
     font-family: Georgia, "Cambria", serif;
     color: #444;
     line-height: 1.8em;
+    padding: 12px 7px 12px 20px;
 }
 
 .post-meta {
@@ -209,6 +211,7 @@ h3 {
         text-align: center;
     }
 }
+
 /*tutaj
 dodaje
 linijki*/

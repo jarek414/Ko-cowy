@@ -18,7 +18,7 @@ from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
 from gallery.views import AuthorCreateView, AuthorsListView, HandicraftListView, HandicraftCreateView, \
-    HandicraftDetailView, HomePage, UserCreateView, LoginView, logout_user
+    HandicraftDetailView, HomePage, UserCreateView, LoginView, logout_user, OrderCreateView, add_to_cart
 
 urlpatterns = [
                   path('admin/', admin.site.urls),
@@ -31,4 +31,6 @@ urlpatterns = [
                   path('register/', UserCreateView.as_view(), name='user'),
                   path('login/', LoginView.as_view(), name='login'),
                   path('logout/', logout_user, name='logout'),
+                  path('order/', OrderCreateView.as_view(), name='order'),
+                  path('add-to-cart/<pk>/', add_to_cart, name='add-to-cart'),
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
