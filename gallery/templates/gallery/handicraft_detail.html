@@ -22,7 +22,7 @@
     </nav>
     {% endif %}
         {% else %}
-        <h3 class="brand-tagline">Zaloguj się, żeby kupić</h3>
+        <a class="pure-button" href={% url 'login' %}>Zaloguj się żeby kupić</a>
     {% endif %}
 
 {% endblock content %}
@@ -39,16 +39,16 @@
         <div class="post-images pure-g">
         <div class="posts">
             <h1 class="content-subhead">{{ object.title }}</h1>
-            <div class="pure-u-md-1-2">
-                <a href="#">
+            <div class="pure-u-17-24">
+                <a href="/">
                     <img style="display: block; margin: 0 auto" class="pure-img-responsive" alt="painting"
                          src="{{ object.image.url }}">
                 </a>
                 <div class="post-image-meta">
-                    <h3>{{ object.author }}</h3>
+                    <p>{{ object.author }}</p>
                 </div>
             </div>
-            <div class="pure-u-md-1-2">
+            <div class="pure-u-md-7-24">
                 <p class="post-description">{{ object.description }}</p>
             </div>
         </div>

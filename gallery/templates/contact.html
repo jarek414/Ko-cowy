@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %} Kontakt {% endblock %}
+
+
+{% block content %}
+
+    <h1 class="brand-title">Jeżeli masz pytania napisz</h1>
+
+{% endblock content %}
+
+
+{% block content_body %}
+    <div class="posts">
+        <h1 class="content-subhead"></h1>
+
+
+        <section class="post">
+            <header class="post-header">
+
+                <h2 class="post-title">Możesz skontaktować się ze mną wpisując wiadomość poniżej</h2>
+                <p>Otrzymam Twoją wiadomość jako e-mail. Nie krępuj się — o co chcesz spytać?</p>
+                <h5>Kontact do mnie</h5>
+                <h5>*Email: moj@email.com *Telefon: +48 555 555 555</h5>
+                {% if messages %}
+                    {% for message in messages %}
+                        <p>{{ message }}</p>
+                    {% endfor %}
+                {% endif %}
+
+            </header>
+
+
+            <form method="post">
+                {% csrf_token %}
+
+                {% for hidden in form.hidden_fields %}
+                    {{ hidden }}
+                {% endfor %}
+
+
+                <div class="row">
+
+                    <div class="col-6">
+                        {{ form.name|as_crispy_field }}
+                    </div>
+                    <div class="col-6">
+                        {{ form.email|as_crispy_field }}
+                    </div>
+                    <div class="col-12">
+                        {{ form.message|as_crispy_field }}
+                    </div>
+                </div>
+                <button type="reset" class="btn btn-secondary">Wyczyść</button>
+                <button type="submit" class="btn btn-success">Wyślij</button>
+            </form>
+        </section>
+    </div>
+
+{% endblock content_body %}

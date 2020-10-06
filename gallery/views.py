@@ -4,7 +4,7 @@ from .models import Handicraft, Author, Comment, Order, OrderHandicraft
 from django.views.generic.list import ListView
 from django.urls import reverse_lazy, reverse
 from django.views.generic.detail import DetailView
-from .forms import CommentForm, UserAddForm
+from .forms import CommentForm, UserAddForm, ContactForm
 from django.shortcuts import redirect, render, HttpResponse, get_object_or_404
 from django.views import View
 from django.contrib.auth.models import User
@@ -14,6 +14,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.utils import timezone
+from django.core.mail import send_mail, BadHeaderError
 
 
 class AuthorCreateView(PermissionRequiredMixin, CreateView):
@@ -60,7 +61,8 @@ class HandicraftDetailView(DetailView):
             )
             comment.save()
         else:
-            raise Exception
+            messages.error(request, 'wysyłanie komentarza nie powiodło się')
+            return redirect(reverse('detail', args=[self.get_object().id]))
         return redirect(reverse('detail', args=[self.get_object().id]))
 
 
@@ -120,7 +122,6 @@ class OrderCreateView(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy('authors')
 
 
-
 @login_required
 def add_to_cart(request, pk):
     handicraft = get_object_or_404(Handicraft, pk=pk)
@@ -146,4 +147,49 @@ def add_to_cart(request, pk):
             user=request.user, created=created)
         order.order_handicraft.add(order_handicraft)
         messages.info(request, "This item was added to your cart.")
-        return redirect("core:order-summary")
+        return redirect("home")
+
+
+class PaintingListView(View):
+    def get(self, request):
+        paintings = Handicraft.objects.filter(category='OBRAZ')
+        context = {
+            'paintings': paintings,
+        }
+        return render(request, 'paintings_list.html', context)
+
+
+class PicturesListView(View):
+    def get(self, request):
+        pictures = Handicraft.objects.filter(category='ZDJĘCIE')
+        context = {
+            'pictures': pictures,
+        }
+        return render(request, 'pictures_list.html', context)
+
+
+class HomeView(View):
+    def get(self, request):
+        return render(request, 'home.html')
+
+
+class ContactView(View):
+    def get(self, request):
+        form = ContactForm()
+        return render(request, 'contact.html', {'form': form})
+
+    def post(self, request):
+        form = ContactForm(data=request.POST)
+        if form.is_valid():
+            subject = f'Wiadomość od {form.cleaned_data["name"]}'
+            message = form.cleaned_data["message"]
+            from_email = form.cleaned_data["email"]
+            recipients = ['jarotalik69@gmail.com']
+            try:
+                send_mail(subject, message, from_email, recipients, fail_silently=True)
+            except BadHeaderError:
+                messages.error(request, 'spróbuj ponownie wysyłanie wiadomosci nie powiodło się')
+                return render(request, 'contact.html', {'form': form})
+            messages.success(request, 'Dziękujemy za kontakt odpowiemy jak najszybciej')
+            return render(request, 'contact.html', {'form': form})
+        return render(request, 'contact.html', {'form': form})

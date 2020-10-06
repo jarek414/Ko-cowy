@@ -12,7 +12,9 @@
 {% endblock content %}
 
 {% block content_body %}
-
+ <header class="post-header">
+    <h2 class="post-title">Łączna wartosc zamowienia {{ order.get_total_price }}</h2>
+ </header>
     <form method="post">
         {% csrf_token %}
         <div class="row">

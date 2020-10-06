@@ -18,7 +18,8 @@ from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
 from gallery.views import AuthorCreateView, AuthorsListView, HandicraftListView, HandicraftCreateView, \
-    HandicraftDetailView, HomePage, UserCreateView, LoginView, logout_user, OrderCreateView, add_to_cart
+    HandicraftDetailView, HomePage, UserCreateView, LoginView, logout_user, OrderCreateView, add_to_cart, \
+    PaintingListView, PicturesListView, HomeView, ContactView
 
 urlpatterns = [
                   path('admin/', admin.site.urls),
@@ -27,10 +28,13 @@ urlpatterns = [
                   path('dziela/', HandicraftListView.as_view(), name='handicrafs'),
                   path('dodaj_dzielo/', HandicraftCreateView.as_view(), name='add-handicraf'),
                   path('handicraft/<pk>/', HandicraftDetailView.as_view(), name='detail'),
-                  path('', HomePage.as_view(), name='home'),
                   path('register/', UserCreateView.as_view(), name='user'),
                   path('login/', LoginView.as_view(), name='login'),
                   path('logout/', logout_user, name='logout'),
                   path('order/', OrderCreateView.as_view(), name='order'),
                   path('add-to-cart/<pk>/', add_to_cart, name='add-to-cart'),
+                  path('paintings/', PaintingListView.as_view(), name='paintings'),
+                  path('pictures/', PicturesListView.as_view(), name='pictures'),
+                  path('', HomeView.as_view(), name='home'),
+                  path('contact/', ContactView.as_view(), name='contact'),
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

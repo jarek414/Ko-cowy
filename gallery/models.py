@@ -65,6 +65,7 @@ class OrderHandicraft(models.Model):
     def __str__(self):
         return f"{self.handicraft.title} - {self.handicraft.price} zł"
 
+    @property
     def get_handicraft_price(self):
         return self.handicraft.price
 
@@ -81,4 +82,8 @@ class Order(models.Model):
     house_number = models.SmallIntegerField(blank=True, null=True)
     flat_number = models.SmallIntegerField(null=True)
 
-
+    @property
+    def get_total_price(self):
+        orderhandicraft = self.orderhandicraft_set.all()
+        total = sum([item.get_handicraft_price for item in orderhandicraft])
+        return total

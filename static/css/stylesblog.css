@@ -19,6 +19,14 @@ h3 {
     font-weight: 100;
 }
 
+.additional_class {
+    max-width: 100%;
+    height: auto;
+    display: flex;
+    margin-left: 100px;
+    margin-right: 100px;
+    padding: 12px 7px 12px 20px;
+}
 
 
 /* LAYOUT CSS */
@@ -166,6 +174,7 @@ h3 {
     margin-left: 1em;
     color: #fff;
     text-shadow: 0 1px 1px #333;
+    padding: 20px 5px 5px 10px;
 }
 
 .footer {

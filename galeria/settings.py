@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'gallery',
     'address',
+    'sendgrid',
 ]
 
 GOOGLE_API_KEY = 'AIzaSyD--your-google-maps-key-SjQBE'
@@ -138,4 +139,10 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
-
+EMAIL_BACKEND ='django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'projektgaleria414@gmail.com'
+EMAIL_HOST_PASSWORD = '1234coderslab'

@@ -34,10 +34,10 @@
 
     <div class="content pure-u-1 pure-u-md-3-4">
         <div class="pure-menu pure-menu-horizontal pure-menu-scrollable">
-            <a href="#" class="pure-menu-link pure-menu-heading">GALERIA</a>
+            <a href="{% url 'home' %}" class="pure-menu-link pure-menu-heading">GALERIA</a>
             <ul class="pure-menu-list">
                 <li class="pure-menu-item">
-                    <a href="#" class="pure-menu-link">Home</a>
+                    <a href="{% url 'authors' %}" class="pure-menu-link">Lista Autorów</a>
                 </li>
                 <li class="pure-menu-item">
                     <a href="#" class="pure-menu-link">O Mnie</a>
@@ -49,7 +49,7 @@
                     <a href="#" class="pure-menu-link">Blog</a>
                 </li>
                 <li class="pure-menu-item">
-                    <a href="#" class="pure-menu-link">Kontakt</a>
+                    <a href="{% url 'contact' %}" class="pure-menu-link">Kontakt</a>
                 </li>
                 <li class="pure-menu-item">
                     <a href="#" class="pure-menu-link">Bilety</a>
