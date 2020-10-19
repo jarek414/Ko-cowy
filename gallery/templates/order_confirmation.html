@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block title %} Potwierdź Zamówienie {% endblock %}
+
+
+{% block content %}
+
+    <h1 class="brand-title">Potwierdź Zamówienie</h1>
+
+{% endblock content %}
+
+
+{% block content_body %}
+    <div class="posts">
+        <h1 class="content-subhead"></h1>
+
+        <section class="post">
+            <header class="post-header">
+                <h2 class="post-title">Szczegóły zamówienia</h2>
+            </header>
+
+            <div class="post-description">
+
+                <table class="pure-table pure-table-bordered">
+                    <thead>
+                    <tr>
+                        <th>Tytuł</th>
+                        <th>Autor</th>
+                        <th>Cena</th>
+                        <th>Usuń z koszyka</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    {% for order_handicraft in object.handicrafts.all %}
+                        <tr class="pure-table-odd">
+                            <td>{{ order_handicraft.handicraft.title }}</td>
+                            <td>{{ order_handicraft.handicraft.author }}</td>
+                            <td>{{ order_handicraft.handicraft.price }}</td>
+                            <td><a href="{{ order_handicraft.handicraft.remove_from_order }}" data-action="remove" class="pure-button">Usuń</a>
+                            </td>
+                        </tr>
+                    {% empty %}
+                        <li>Nie masz nic w koszyku.</li>
+                    {% endfor %}
+                    </tbody>
+                </table>
+
+
+            </div>
+
+        </section>
+    </div>
+
+    {% if object.get_total_price %}
+        <tr>
+            <td colspan="4"><b>Cena łączna</b></td>
+            <td><b>{{ object.get_total_price }} zł</b></td>
+        </tr>
+        <tr>
+            <td colspan="5">
+                <a class='button-success pure-button' href='/checkout/'>Potwierdz zamowienie</a>
+                <a class='pure-button pure-button-primary' href='/'>Dodaj kolejny produkt</a>
+            </td>
+        </tr>
+    {% endif %}
+
+{% endblock content_body %}

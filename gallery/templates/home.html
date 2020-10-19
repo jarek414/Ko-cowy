@@ -11,60 +11,69 @@
 
 
 {% block content_body %}
-     <div class="posts">
-                <h1 class="content-subhead"></h1>
+    {% if messages %}
+        {% for message in messages %}
+            <p>{{ message }}</p>
+        {% endfor %}
+    {% endif %}
 
-                <section class="post">
-                    <header class="post-header">
-                        <h2 class="post-title">Wstęp o galerii</h2>
+    <div class="posts">
+        <h1 class="content-subhead"></h1>
 
-                        <p class="post-meta">
-                            By <a class="post-author" href="#">Ewelina Herwy</a>
-                        </p>
-                    </header>
+        <section class="post">
+            <header class="post-header">
+                <h2 class="post-title">Wstęp o galerii</h2>
 
-                    <div class="post-description">
-                        <p>
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                        </p>
-                    </div>
-                </section>
+                <p class="post-meta">
+                    By <a class="post-author" href="#">Ewelina Herwy</a>
+                </p>
+            </header>
 
-                <section class="post">
-                    <header class="post-header">
+            <div class="post-description">
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore
+                    et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+                    aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                    cillum dolore eu fugiat nulla pariatur.
+                </p>
+            </div>
+        </section>
 
-                        <h2 class="post-title">W galerii można znaleźć zdjęcia i obrazy</h2>
+        <section class="post">
+            <header class="post-header">
 
-                    </header>
+                <h2 class="post-title">W galerii można znaleźć zdjęcia i obrazy</h2>
 
-                    <div class="post-description">
-                        <div class="post-images pure-g">
-                            <div class="pure-u-1 pure-u-md-1-2">
-                                <a href="{% url 'pictures' %}">
-                                    <img style="width: 100%; height: 294px" alt="Photo"
-                                         class="pure-img-responsive"
-                                         src="media/droga.JPG">
-                                </a>
+            </header>
 
-                                <div class="post-image-meta">
-                                    <h3>zdjęcia</h3>
-                                </div>
-                            </div>
+            <div class="post-description">
+                <div class="post-images pure-g">
+                    <div class="pure-u-1 pure-u-md-1-2">
+                        <a href="{% url 'pictures' %}">
+                            <img style="width: 100%; height: 294px" alt="Photo"
+                                 class="pure-img-responsive"
+                                 src="media/droga.JPG">
+                        </a>
 
-                            <div class="pure-u-1 pure-u-md-1-2">
-                                <a href="{% url 'paintings' %}">
-                                    <img style="width: 100%; height: 294px" alt="Photo of the sunset on the beach"
-                                         class="pure-img-responsive"
-                                         src="media/obraz1.jpg">
-                                </a>
-
-                                <div class="post-image-meta">
-                                    <h3>obrazy</h3>
-                                </div>
-                            </div>
+                        <div class="post-image-meta">
+                            <h3>zdjęcia</h3>
                         </div>
                     </div>
-                </section>
-     </div>
+
+                    <div class="pure-u-1 pure-u-md-1-2">
+                        <a href="{% url 'paintings' %}">
+                            <img style="width: 100%; height: 294px" alt="Photo of the sunset on the beach"
+                                 class="pure-img-responsive"
+                                 src="media/obraz1.jpg">
+                        </a>
+
+                        <div class="post-image-meta">
+                            <h3>obrazy</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
 
 {% endblock content_body %}

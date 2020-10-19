@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import Handicraft, Author, Comment
+
+from .models import Handicraft
 
 admin.site.register(Handicraft, admin.ModelAdmin)
 

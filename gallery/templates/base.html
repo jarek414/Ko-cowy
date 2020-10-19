@@ -1,4 +1,5 @@
 {% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -15,6 +16,29 @@
     <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.3/build/grids-min.css">
     <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.3/build/grids-responsive-min.css">
     <link rel="stylesheet" href="{% static "css/stylesblog.css" %}">
+    <link rel="stylesheet" href="{% static "css/styles.css" %}">
+    <script type="text/javascript">
+        const user = '{{ request.user }}'
+
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        const csrftoken = getCookie('csrftoken');
+
+    </script>
 
 
 </head>
@@ -33,20 +57,21 @@
 
 
     <div class="content pure-u-1 pure-u-md-3-4">
-        <div class="pure-menu pure-menu-horizontal pure-menu-scrollable">
-            <a href="{% url 'home' %}" class="pure-menu-link pure-menu-heading">GALERIA</a>
+        {#        <div class="pure-menu pure-menu-horizontal pure-menu-scrollable">#}
+        <div class="pure-menu pure-menu-horizontal pure-menu-scrollable custom-menu custom-menu-bottom custom-menu-tucked"
+             id="tuckedMenu">
+            <div class="custom-menu-screen"></div>
             <ul class="pure-menu-list">
+                <a href="{% url 'home' %}" class="pure-menu-link pure-menu-heading">GALERIA</a>
+
                 <li class="pure-menu-item">
                     <a href="{% url 'authors' %}" class="pure-menu-link">Lista Autorów</a>
                 </li>
                 <li class="pure-menu-item">
-                    <a href="#" class="pure-menu-link">O Mnie</a>
+                    <a href="{% url 'offer' %}" class="pure-menu-link">Oferta</a>
                 </li>
                 <li class="pure-menu-item">
-                    <a href="#" class="pure-menu-link">Oferta</a>
-                </li>
-                <li class="pure-menu-item">
-                    <a href="#" class="pure-menu-link">Blog</a>
+                    <a href="#" class="pure-menu-link">Aktualności</a>
                 </li>
                 <li class="pure-menu-item">
                     <a href="{% url 'contact' %}" class="pure-menu-link">Kontakt</a>
@@ -57,7 +82,11 @@
                 {% if user.is_authenticated %}
 
                     <li class="pure-menu-item">
-                        <a href="#" class="pure-menu-link">Twoje Zamówienie</a>
+                        <a href="{% url 'profile' %}" class="pure-menu-link">Twój profil</a>
+                    </li>
+
+                    <li class="pure-menu-item">
+                        <a href="{% url 'order' %}" class="pure-menu-link">Twoje Zamówienie</a>
                     </li>
                     <li class="pure-menu-item">
                         <a href="{% url 'logout' %}" class="pure-menu-link">Wyloguj się</a>
@@ -77,6 +106,7 @@
                     </li>
                 {% endif %}
 
+
             </ul>
         </div>
 
@@ -90,6 +120,8 @@
         Talik Jaroslaw - Projekt końcowy
     </div>
 </div>
+
+<script type="text/javascript" src="{% static "js/gallery.js" %}"></script>
 
 </body>
 </html>

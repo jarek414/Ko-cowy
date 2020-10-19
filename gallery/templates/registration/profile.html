@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+
+{% block title %} Twój profil {% endblock %}
+
+
+{% block content %}
+
+    <h1 class="brand-title">Profil {{ user.username }}</h1>
+
+{% endblock content %}
+
+
+{% block content_body %}
+    <div class="posts">
+        <section class="post">
+            <header class="post-header">
+                <h2 class="post-title">Twój Profil</h2>
+            </header>
+
+            <div class="post-description">
+
+                <table class="pure-table pure-table-bordered">
+                    <thead>
+                    <tr>
+                        <th>Nick</th>
+                        <th>Imię</th>
+                        <th>Nazwisko</th>
+                        <th>Email</th>
+                        <th>Uaktualnij Dane</th>
+                        <th>Zmień hasło</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+
+                    <tr class="pure-table-odd">
+                        <td>{{ user.username }}</td>
+                        <td>{{ user.first_name }}</td>
+                        <td>{{ user.last_name }}</td>
+                        <td>{{ user.email }}</td>
+                        <td><a href="{% url 'update_user' %}" class="pure-menu-link">Uaktualnij profil</a></td>
+                        <td><a href="{% url 'change-password' %}" class="pure-menu-link">Zmień hasło</a></td>
+                        </td>
+                    </tr>
+
+                    </tbody>
+                </table>
+
+            </div>
+
+        </section>
+
+        <section class="post">
+            <header class="post-header">
+                <h2 class="post-title">Archiwalne zamówienia</h2>
+            </header>
+
+            <div class="post-description">
+
+                <table class="pure-table pure-table-bordered">
+                    <thead>
+                    <tr>
+                        <th>numer zamówienia</th>
+                        <th>Tytuł</th>
+                        <th>Autor</th>
+                        <th>Cena</th>
+                        <th>Data zakupu</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    {% for handicraft in objects %}
+                        {% for art in  handicraft.handicrafts.all %}
+                            <tr class="pure-table-odd">
+                                <td>{{ art.handicraft.id }}</td>
+                                <td>{{ art.handicraft.title }}</td>
+                                <td>{{ art.handicraft.author }}</td>
+                                <td>{{ art.handicraft.price }}</td>
+                                <td>{{ art.created }}</td>
+                                </td>
+                            </tr>
+                        {% empty %}
+                            <li>Jeszcze u nas nic nie zamawiałeś</li>
+                        {% endfor %}
+                    {% endfor %}
+                    </tbody>
+                </table>
+                {% if object.get_total_price %}
+                    <tr>
+                        <td colspan="4"><b>Cena łączna</b></td>
+                        <td><b>{{ object.get_total_price }} zł</b></td>
+                    </tr>
+
+                {% endif %}
+
+            </div>
+
+        </section>
+    </div>
+
+
+    <div class="posts">
+        <tr>
+            <td colspan="5">
+                <a class='pure-button pure-button-primary' href='{% url 'offer' %}'>Zobacz co mamy w ofrcie</a>
+            </td>
+        </tr>
+    </div>
+
+
+{% endblock content_body %}

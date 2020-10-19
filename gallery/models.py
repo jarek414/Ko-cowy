@@ -39,8 +39,13 @@ class Handicraft(models.Model):
     def __str__(self):
         return self.title
 
-    def get_add_to_cart_url(self):
-        return reverse("add-to-cart", kwargs={
+    def add_to_order(self):
+        return reverse("buy", kwargs={
+            'pk': self.pk
+        })
+
+    def remove_from_order(self):
+        return reverse("remove", kwargs={
             'pk': self.pk
         })
 
@@ -56,24 +61,25 @@ class Comment(models.Model):
         ordering = ['-created']
 
 
-class OrderHandicraft(models.Model):
+class OrderArt(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
                              on_delete=models.CASCADE)
     ordered = models.BooleanField(default=False)
     handicraft = models.ForeignKey(Handicraft, on_delete=models.CASCADE)
+    created = models.DateTimeField(auto_now_add=True)
+
+    def get_price(self):
+        return self.handicraft.price
 
     def __str__(self):
-        return f"{self.handicraft.title} - {self.handicraft.price} zł"
-
-    @property
-    def get_handicraft_price(self):
-        return self.handicraft.price
+        return f'{self.handicraft} {self.user}'
 
 
 class Order(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    order_handicraft = models.ManyToManyField(OrderHandicraft)
     ordered = models.BooleanField(default=False)
+    handicrafts = models.ManyToManyField(OrderArt)
+    additional_info = models.CharField(max_length=1024, blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True)
     country = models.CharField(max_length=100, blank=True, null=True)
     citi = models.CharField(max_length=100, blank=True, null=True)
@@ -82,8 +88,11 @@ class Order(models.Model):
     house_number = models.SmallIntegerField(blank=True, null=True)
     flat_number = models.SmallIntegerField(null=True)
 
-    @property
+    def __str__(self):
+        return f'{self.ordered}'
+
     def get_total_price(self):
-        orderhandicraft = self.orderhandicraft_set.all()
-        total = sum([item.get_handicraft_price for item in orderhandicraft])
+        total = 0
+        for order_handicraft in self.handicrafts.all():
+            total += order_handicraft.get_price()
         return total

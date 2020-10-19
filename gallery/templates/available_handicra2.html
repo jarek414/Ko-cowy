@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block title %} Dostępne Dzieła Sztuki {% endblock %}
+
+
+{% block content %}
+
+    <h1 class="brand-title">Dostępne Dzieła Sztuki</h1>
+
+{% endblock content %}
+
+
+{% block content_body %}
+
+    <div class="pure-g">
+        <div class="text-box pure-u-1 pure-u-md-1-2 pure-u-lg-2-3">
+            <div class="l-box">
+                <h1 class="text-box-head">Znajdą Państwo dostępne dzieła sztuki</h1>
+                <p class="text-box-subhead">Nasza Galeria posiada liczne zdjęcia i obrazy wykonane przez młodych
+                    artystów</p>
+            </div>
+        </div>
+        {% for available in available_list %}
+            <div class="photo-box pure-u-1 pure-u-md-1-2 pure-u-lg-1-3">
+                <a href="/handicraft/{{ available.id }}/">
+                    <img src="{{ available.image.url }}"
+                         alt="painting">
+                </a>
+
+                <aside class="photo-box-caption">
+                    <span> <a
+                            href="/author/{{ available.author.id }}">{{ available.author }}  cena : {{ available.price }} zł</a></span>
+                </aside>
+            </div>
+        {% endfor %}
+
+{#    <div class="photo-box pure-u-1">#}
+{##}
+{#        <div class="footer">#}
+{#                <div class="pure-menu pure-menu-horizontal">#}
+{#    <span class="step-links">#}
+{#        {% if page_obj.has_previous %}#}
+{#            <a href="?page=1">&laquo; Pierwsza</a>#}
+{#            <a href="?page={{ page_obj.previous_page_number }}">Wcześniejsza</a>#}
+{#        {% endif %}#}
+{##}
+{#        <span class="current">#}
+{#            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.#}
+{#        </span>#}
+{##}
+{#        {% if page_obj.has_next %}#}
+{#            <a href="?page={{ page_obj.next_page_number }}">Następna</a>#}
+{#            <a href="?page={{ page_obj.paginator.num_pages }}">Ostatnia &raquo;</a>#}
+{#        {% endif %}#}
+{#    </span>#}
+{#        </div>#}
+{##}
+{#    </div>#}
+{#    </div>#}
+    </div>
+
+{% endblock content_body %}

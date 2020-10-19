@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 
-{% block title %} Galeria {% endblock %}
+{% block title %} Zdjęcia {% endblock %}
 
 
 {% block content %}
 
-    <h1 class="brand-title">Dostępne zdjecia</h1>
+    <h1 class="brand-title">zdjecia</h1>
 
 {% endblock content %}
 
@@ -14,26 +14,31 @@
 
     <div>
         <!-- A wrapper for all the blog posts -->
-
-        <div class="post-description">
-            <div class="post-images pure-g">
-                <div class="posts">
-                    {% for picture in pictures %}
-                        <div class="pure-u-6-24" >
-                            <a href="/handicraft/{{ picture.id }}/">
-                                <img class="additional_class pure-img-responsive" alt="painting"
-                                     src="{{ picture.image.url }}">
-                            </a>
-                            <div class="post-image-meta">
-                                <p>{{ picture.title }}</p>
-                            </div>
-                        </div>
-                    {% empty %}
-                        <li>No painting yet.</li>
-                    {% endfor %}
+        <div class="pure-g">
+            <div class="text-box pure-u-1 pure-u-md-1-2 pure-u-lg-2-3">
+                <div class="l-box">
+                    <h1 class="text-box-head">Nimnijejsza część jest poświęcona Zdjęcią </h1>
+                    <p class="text-box-subhead">Znajdą Państwo tutaj wszystkie Zdjęcia jakie kiedykolwiek były u nas
+                        wystawione</p>
                 </div>
             </div>
+            {% for picture in pictures %}
+                <div class="photo-box pure-u-1 pure-u-md-1-2 pure-u-lg-1-3">
+                    <a href="/handicraft/{{ picture.id }}/">
+                        <img src="{{ picture.image.url }}"
+                             alt="painting">
+                    </a>
+
+                    <aside class="photo-box-caption">
+                    <span>  {{ picture.title }}</span>
+                    </aside>
+                </div>
+            {% empty %}
+                <li>No painting yet.</li>
+            {% endfor %}
         </div>
+    </div>
+    </div>
 
     </div>
 

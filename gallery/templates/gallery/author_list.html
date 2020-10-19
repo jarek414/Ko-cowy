@@ -15,7 +15,7 @@
         <div class="pure-menu-list">
             <ul class="pure-menu-list">
                 {% for author in object_list %}
-                    <li class="pure-menu-item"><a href="#" class="pure-menu-link">{{ author.surname }} {{ author.first_name }}</a></li>
+                    <li class="pure-menu-item"><a href="/author/{{ author.id }}" class="pure-menu-link">{{ author.surname }} {{ author.first_name }}</a></li>
                 {% empty %}
                     <li>No authors yet.</li>
                 {% endfor %}

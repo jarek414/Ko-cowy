@@ -12,15 +12,12 @@
 {% endblock content %}
 
 {% block content_body %}
- <header class="post-header">
-    <h2 class="post-title">Łączna wartosc zamowienia {{ order.get_total_price }}</h2>
- </header>
+    <header class="post-header">
+        <h2 class="post-title">Łączna wartosc zamowienia {{ order.get_total_price }}</h2>
+    </header>
     <form method="post">
         {% csrf_token %}
         <div class="row">
-            <div class="col-6">
-                {{ form.order_handicraft|as_crispy_field }}
-            </div>
             <div class="col-6">
                 {{ form.country|as_crispy_field }}
             </div>
@@ -38,6 +35,9 @@
             </div>
             <div class="col-6">
                 {{ form.flat_number|as_crispy_field }}
+            </div>
+            <div class="col-12">
+                {{ form.additional_info|as_crispy_field }}
             </div>
         </div>
         <button type="submit" class="btn btn-success">Potwierdź</button>

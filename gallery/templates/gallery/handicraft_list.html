@@ -1,39 +1,45 @@
 {% extends "base.html" %}
 
-{% block title %} Galeria {% endblock %}
+{% block title %} Oferta {% endblock %}
 
 
 {% block content %}
 
-    <h1 class="brand-title">Dostępne dzieła</h1>
+    <h1 class="brand-title">Dostępne Dzieła</h1>
 
 {% endblock content %}
 
 
 {% block content_body %}
-    {% for handicraft in object_list %}
+
     <div>
         <!-- A wrapper for all the blog posts -->
-    <div class="post-description">
-        <div class="post-images pure-g">
-        <div class="posts">
-            <h1 class="content-subhead">{{ handicraft.title }}</h1>
-            <div class="pure-u-md-1-2">
-                <a href="#">
-                    <img style="display: block; margin: 0 auto" class="pure-img-responsive" alt="painting"
-                         src="{{ handicraft.image.url }}">
-                </a>
-                <div class="post-image-meta">
-                    <h3>{{ handicraft.author }}</h3>
+
+        <div class="post-description">
+            <div class="post-images pure-g">
+                <div class="posts">
+                    {% for available in available_list %}
+                        <div class="pure-u-6-24" >
+                            <a href="/handicraft/{{ available.id }}/">
+                                <img class="additional_class pure-img-responsive" alt="painting"
+                                     src="{{ available.image.url }}">
+                            </a>
+                            <div class="post-image-meta">
+                                <p>{{ available.title }}</p>
+                            </div>
+                            <div>
+                                <p class=""> cena : {{ available.price }}</p>
+                            </div>
+
+                        </div>
+                    {% empty %}
+                        <li>nie mamy dostępnych dzieł sztuki</li>
+                    {% endfor %}
                 </div>
             </div>
         </div>
-        </div>
-    </div>
 
     </div>
-    {% empty %}
-        <li>No handicraft yet.</li>
-    {% endfor %}
+
 
 {% endblock content_body %}

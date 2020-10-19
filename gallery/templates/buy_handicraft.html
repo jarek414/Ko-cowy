@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% load crispy_forms_tags %}
+
+{% block title %} Dodaj Dzieło{% endblock %}
+
+
+{% block content %}
+
+    <h1 class="brand-title">SKŁADANIE ZAMÓWIENIA</h1>
+
+{% endblock content %}
+
+{% block content_body %}
+ <header class="post-header">
+    <h2 class="post-title">Łączna wartosc zamowienia {{ order. }}</h2>
+ </header>
+
+    {% for art in arts %}
+        <p>nazwa: {{ art.handicraft.title }}</p>
+        <p>cena: {{ art.handicraft.price }}</p>
+    {% endfor %}
+
+{% endblock content_body %}

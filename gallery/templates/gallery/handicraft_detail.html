@@ -1,28 +1,37 @@
 {% extends "base.html" %}
 {% load crispy_forms_tags %}
 
-{% block title %}{{ object.title }}{% endblock %}
+{% block title %} {{ object.title }}{% endblock %}
 
 
 {% block content %}
     <h1 class="brand-title">{{ object.title }}</h1>
     <h3 class="brand-tagline">{{ object.author }}</h3>
     {% if user.is_authenticated %}
-    {% if object.is_available %}
-    <h3 class="brand-tagline">{{ object.price }} zł</h3>
+        {% if object.is_available %}
+            <h3 class="brand-tagline">{{ object.price }} zł</h3>
 
-    <nav class="nav">
-        <div style="float:right;">
-            <ul class="nav-list">
-                <li class="nav-item">
-                    <a class="pure-button" href={{ object.get_add_to_cart_url }}>Kup</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
-    {% endif %}
-        {% else %}
+            <nav class="nav">
+                <div style="float:right;">
+
+                    <a href="{{ object.add_to_order }}" data-action="add" class="pure-button">Kup</a>
+
+                </div>
+            </nav>
+        {% endif %}
+    {% else %}
         <a class="pure-button" href={% url 'login' %}>Zaloguj się żeby kupić</a>
+    {% endif %}
+
+        {% if user.is_staff %}
+        <ul>
+        <li class="pure-menu-item">
+            <a href="/update-handicraft/{{ object.id }}" class="pure-menu-link">Edytuj</a>
+        </li>
+        <li class="pure-menu-item">
+            <a href="/delete-handicraft/{{ object.id }}" class="pure-menu-link">Usuń</a>
+        </li>
+        </ul>
     {% endif %}
 
 {% endblock content %}
@@ -35,25 +44,25 @@
 {% block content_body %}
     <div>
         <!-- A wrapper for all the blog posts -->
-    <div class="post-description">
-        <div class="post-images pure-g">
-        <div class="posts">
-            <h1 class="content-subhead">{{ object.title }}</h1>
-            <div class="pure-u-17-24">
-                <a href="/">
-                    <img style="display: block; margin: 0 auto" class="pure-img-responsive" alt="painting"
-                         src="{{ object.image.url }}">
-                </a>
-                <div class="post-image-meta">
-                    <p>{{ object.author }}</p>
+        <div class="post-description">
+            <div class="post-images pure-g">
+                <div class="posts">
+                    <h1 class="content-subhead">{{ object.title }}</h1>
+                    <div class="pure-u-17-24">
+                        <a href="/">
+                            <img style="display: block; margin: 0 auto" class="pure-img-responsive" alt="painting"
+                                 src="{{ object.image.url }}">
+                        </a>
+                        <div class="post-image-meta">
+                            <p>{{ object.author }}</p>
+                        </div>
+                    </div>
+                    <div class="pure-u-md-7-24">
+                        <p class="post-description">{{ object.description }}</p>
+                    </div>
                 </div>
             </div>
-            <div class="pure-u-md-7-24">
-                <p class="post-description">{{ object.description }}</p>
-            </div>
         </div>
-        </div>
-    </div>
 
         {% for comment in object.comment_set.all %}
 

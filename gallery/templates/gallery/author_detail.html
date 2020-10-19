@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block title %} {{ object.first_name }} {{ object.surname }} {% endblock %}
+
+
+{% block content %}
+
+    <h1 class="brand-title">Wszystko o {{ object.first_name }} {{ object.surname }}</h1>
+
+    {% if user.is_staff %}
+        <ul>
+        <li class="pure-menu-item">
+            <a href="/update_author/{{ object.id }}" class="pure-menu-link">Edytuj</a>
+        </li>
+        <li class="pure-menu-item">
+            <a href="/delete_author/{{ object.id }}" class="pure-menu-link">Usuń</a>
+        </li>
+        </ul>
+    {% endif %}
+
+{% endblock content %}
+
+
+{% block content_body %}
+    <div class="posts">
+        <h1 class="content-subhead"></h1>
+
+        <section class="post">
+            <header class="post-header">
+                <h2 class="post-title">Życiorys</h2>
+
+            </header>
+
+            <div class="post-description">
+                <p>
+                    {{ object.curriculum_vitae }}
+                </p>
+            </div>
+        </section>
+
+        <section class="post">
+            <header class="post-header">
+
+                <h2 class="post-title">Wybrane dzieła</h2>
+
+            </header>
+
+            <div class="post-description">
+                <div class="post-images pure-g">
+                    <div class="posts">
+                        {% for handicraft in object.handicraft_set.all %}
+                            <div class="pure-u-6-24">
+                                <a href="/handicraft/{{ handicraft.id }}/">
+                                    <img class="additional_class pure-img-responsive" alt="painting"
+                                         src="{{ handicraft.image.url }}">
+                                </a>
+                                <div class="post-image-meta">
+                                    <p>{{ handicraft.title }}</p>
+                                </div>
+                            </div>
+                        {% empty %}
+                            <li>No painting yet.</li>
+                        {% endfor %}
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    </div>
+
+{% endblock content_body %}

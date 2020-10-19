@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %} Galeria {% endblock %}
+
+
+{% block content %}
+
+    <h1 class="brand-title">Dostępne nnnnnnnnnnnn zdjecia</h1>
+
+{% endblock content %}
+
+
+{% block content_body %}
+
+    <div>
+        <!-- A wrapper for all the blog posts -->
+
+        <div class="post-description">
+            <div class="post-images pure-g">
+                <div class="posts">
+                    {% for available in available_list %}
+                        <div class="pure-u-6-24" >
+                            <a href="/handicraft/{{ available.id }}/">
+                                <img class="additional_class pure-img-responsive" alt="painting"
+                                     src="{{ available.image.url }}">
+                            </a>
+                            <div class="post-image-meta">
+                                <p>{{ available.title }}</p>
+                            </div>
+                        </div>
+                    {% empty %}
+                        <li>nie mamy dostępnych dzieł sztuki</li>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+{% endblock content_body %}
